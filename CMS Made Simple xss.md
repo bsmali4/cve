@@ -4,7 +4,7 @@ Stored XSS
 
 In Setting-New module,you can add category,there is no XSS filtering, resulting in storage-type XSS generation。  
 file modules/New/action.addcategory.php,line10~line29.
-    ```  
+    ```` 
     $name = trim($params['name']);
     if ($name != '') {
     echo $name;
@@ -21,7 +21,7 @@ file modules/New/action.addcategory.php,line10~line29.
     $query = 'INSERT INTO '.CMS_DB_PREFIX.'module_news_categories (news_category_id, news_category_name, parent_id, item_order, create_date, modified_date) VALUES (?,?,?,?,NOW(),NOW())';
     $parms = array($catid,$name,$parent,$item_order);
     $db->Execute($query, $parms);
-    ```
+    ````
 
 The parameter name insert into the database without filtering。
 
