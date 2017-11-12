@@ -1,4 +1,4 @@
-ne day I felt like reviewing the source code of some random CMS and I picked CMSMS. This is totally random and I did this to kill boredom.
+one day I felt like reviewing the source code of some random CMS and I picked CMSMS. This is totally random and I did this to kill boredom.
 ## FILE UPLOAD XSS  
 In file manager,user can upload any files other than php。If the file ends with html, svg, it can Cause XSS.
 file modules/FileManager/action.upload.php,line10~line29.  
