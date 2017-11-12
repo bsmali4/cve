@@ -5,6 +5,7 @@ One day I felt like reviewing the source code of some random CMS and I picked CM
 In Setting-New module,you can add category,there is no XSS filtering, resulting in storage-type XSS generation. 
 file modules/New/action.addcategory.php,line10~line29.  
     ```` 
+    
     $name = trim($params['name']);
     //if( $parent == 0 ) $parent = -1;
     $name = trim($params['name']);
