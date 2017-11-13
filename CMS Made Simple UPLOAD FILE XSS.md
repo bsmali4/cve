@@ -1,6 +1,8 @@
+# Use CVE-2017-16798.
 one day I felt like reviewing the source code of some random CMS and I picked CMSMS. This is totally random and I did this to kill boredom.
 ## FILE UPLOAD XSS  
-In file manager,user can upload any files other than php。If the file ends with html, svg, it can Cause XSS.
+In file manager,user can upload any files other than php。If the file ends with html, svg, it can Cause XSS.If the file ends with phtml,it can case code execution.Please see https://www.drupal.org/node/2450963 about the
+relevance of ".phtml" and ".pht" for remote code execution.
 file modules/FileManager/action.upload.php,line10~line29.  
     
     protected function is_file_acceptable( $file )
